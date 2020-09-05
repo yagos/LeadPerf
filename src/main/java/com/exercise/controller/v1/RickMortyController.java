@@ -50,8 +50,8 @@ public class RickMortyController {
     return rickMortyCharactersInfos;
   }
 
-  /*
-  @GetMapping(value = Routes.RMPath.CHARACTERS + "/{" + Routes.RMParam.CHARACTER_ID + "}")
+  @GetMapping(value = Routes.RMPath.CHARACTERS + Routes.RMPath.ID
+      + "/{" + Routes.RMParam.CHARACTER_ID + "}")
   @ApiOperation(value = "Get character by id.")
   @ApiResponses(value = {
       @ApiResponse(code = 200, message = "Get character by id."),
@@ -66,10 +66,9 @@ public class RickMortyController {
 
     return rickMortyCharacter;
   }
-  */
 
-  //https://rickandmortyapi.com/api/character/?name=rick&status=alive
-  @GetMapping(value = Routes.RMPath.CHARACTERS + "/{" + Routes.RMParam.CHARACTER_NAME + "}")
+  @GetMapping(value = Routes.RMPath.CHARACTERS + Routes.RMPath.NAME
+      + "/{" + Routes.RMParam.CHARACTER_NAME + "}")
   @ApiOperation(value = "Get character by name.")
   @ApiResponses(value = {
       @ApiResponse(code = 200, message = "Character name."),

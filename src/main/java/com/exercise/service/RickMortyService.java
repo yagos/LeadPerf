@@ -30,7 +30,6 @@ public class RickMortyService {
         .bodyToMono(RickMortyCharactersInfos.class);
   }
 
-  /*
   public Mono<RickMortyCharacter> getCharacterById(long characterId) {
     log.debug("Launching getCharacterById with character id: {}", characterId);
 
@@ -41,7 +40,6 @@ public class RickMortyService {
         .retrieve()
         .bodyToMono(RickMortyCharacter.class);
   }
-  */
 
   public Mono<RickMortyCharactersInfos> getCharacterByName(String characterName) {
     log.debug("Launching getCharacterByName with character name: {}", characterName);
