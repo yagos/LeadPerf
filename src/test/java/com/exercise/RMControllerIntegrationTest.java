@@ -1,7 +1,6 @@
 package com.exercise;
 
 import com.exercise.routes.Routes;
-import org.hamcrest.core.Is;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,36 +12,42 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @ExtendWith(SpringExtension.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.MOCK, classes = Application.class)
 @AutoConfigureMockMvc
 @TestPropertySource(locations = "classpath:application.properties")
-class UserControllerIntegrationTest {
+class RMControllerIntegrationTest {
 
   @Autowired
-  private MockMvc mvc;
+  private MockMvc mockMvc;
 
   private static final String BASE_URL = "http://localhost:8089";
 
   @Test
-  void userProfileLegacyHttpStatusOK() throws Exception {
+  void testRMHttpStatusOK() throws Exception {
 
-    this.mvc.perform(MockMvcRequestBuilders.get(BASE_URL + "/" + Routes.Version.V1 + "/TestRM")
-        .contentType(MediaType.APPLICATION_JSON))
-        .andExpect(status().isOk());
+    this.mockMvc
+        .perform(
+            MockMvcRequestBuilders
+                .get(BASE_URL + Routes.Version.V1 + "/TestRM")
+                .contentType(MediaType.APPLICATION_JSON)
+        )
+        .andExpect(status().isOk())
+        .andReturn().getResponse().getContentAsString();
   }
 
   @Test
-  void userProfileLegacyContentOK() throws Exception {
-    final String expectedResult = "<results></results>";
+  void getCharacterById_OK() throws Exception {
+    String characterIdPath = "/1";
 
-    this.mvc.perform(MockMvcRequestBuilders.get(BASE_URL)
-        .contentType(MediaType.APPLICATION_JSON))
-        .andExpect(status().isOk())
-        .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
-        .andExpect(jsonPath("", Is.is(expectedResult)));
+    this.mockMvc.perform(
+        MockMvcRequestBuilders
+            .get(BASE_URL + Routes.Version.V1
+                + Routes.RMPath.CHARACTERS + Routes.RMPath.ID + characterIdPath)
+            .contentType(MediaType.APPLICATION_JSON))
+        .andExpect(status().isOk());
   }
 }
 

@@ -7,9 +7,8 @@ import com.exercise.service.RickMortyService;
 import com.sun.istack.NotNull;
 import io.swagger.annotations.*;
 import lombok.extern.slf4j.Slf4j;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Mono;
 
@@ -18,10 +17,10 @@ import javax.validation.Valid;
 @RestController
 @Api("Rick&Morty")
 @Slf4j
-@RequestMapping(path = Routes.Version.V1)
+@RequestMapping(path = Routes.Version.V1,
+    consumes = MediaType.APPLICATION_JSON_VALUE,
+    produces = MediaType.APPLICATION_JSON_VALUE)
 public class RickMortyController {
-
-  private static final Logger LOGGER = LoggerFactory.getLogger(RickMortyController.class);
 
   @Autowired
   private RickMortyService rickMortyService;
