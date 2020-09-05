@@ -11,7 +11,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 import javax.validation.Valid;
@@ -58,7 +57,7 @@ public class RickMortyController {
       @ApiResponse(code = 500, message = "Internal server error.")})
   public Mono<RickMortyCharacter> getCharacterByid(
       @ApiParam(value = "Id of the character.", required = true)
-      @PathVariable("characterId") @NotNull @Valid long characterId
+      @PathVariable(Routes.RMParam.CHARACTER_ID) @NotNull @Valid long characterId
   ) {
     log.debug("Path param char id: {}", characterId);
     Mono<RickMortyCharacter> rickMortyCharacter = rickMortyService.getCharacterById(characterId);
@@ -75,10 +74,45 @@ public class RickMortyController {
       @ApiResponse(code = 500, message = "Internal server error.")})
   public Mono<RickMortyCharactersInfos> getCharactersByName(
       @ApiParam(value = "Character name.", required = true)
-      @PathVariable("characterName") @NotNull @Valid String characterName
+      @PathVariable(Routes.RMParam.CHARACTER_NAME) @NotNull @Valid String characterName
   ) {
-    log.debug("Path param char name: {}", characterName);
+    log.debug("Path param character name: {}", characterName);
     Mono<RickMortyCharactersInfos> rickMortyCharactersInfos = rickMortyService.getCharacterByName(characterName);
+    log.debug("Got following response: {}", rickMortyCharactersInfos);
+
+    return rickMortyCharactersInfos;
+  }
+
+  // DELETE + POST - It's not handled by the RM API
+  @DeleteMapping(value = Routes.RMPath.CHARACTERS + Routes.RMPath.ID
+      + "/{" + Routes.RMParam.CHARACTER_ID + "}")
+  @ApiOperation(value = "Delete character by id.")
+  @ApiResponses(value = {
+      @ApiResponse(code = 200, message = "Character id."),
+      @ApiResponse(code = 500, message = "Internal server error.")})
+  public Mono<RickMortyCharactersInfos> deleteCharactersById(
+      @ApiParam(value = "Character id.", required = true)
+      @PathVariable(Routes.RMParam.CHARACTER_ID) @NotNull @Valid String characterId
+  ) {
+    log.debug("Path param character id: {}", characterId);
+    Mono<RickMortyCharactersInfos> rickMortyCharactersInfos = rickMortyService.deleteCharacterById(characterId);
+    log.debug("Got following response: {}", rickMortyCharactersInfos);
+
+    return rickMortyCharactersInfos;
+  }
+
+  // DELETE + POST - It's not handled by the RM API
+  @PostMapping(value = Routes.RMPath.CHARACTERS)
+  @ApiOperation(value = "Create character.")
+  @ApiResponses(value = {
+      @ApiResponse(code = 200, message = "Character id."),
+      @ApiResponse(code = 500, message = "Internal server error.")})
+  public Mono<RickMortyCharactersInfos> createCharacter(
+      @ApiParam(value = "Character id.", required = true)
+      @RequestParam("character") @NotNull @Valid RickMortyCharacter rickMortyCharacter
+  ) {
+    log.debug("Body param character: {}", rickMortyCharacter);
+    Mono<RickMortyCharactersInfos> rickMortyCharactersInfos = rickMortyService.createCharacter(rickMortyCharacter);
     log.debug("Got following response: {}", rickMortyCharactersInfos);
 
     return rickMortyCharactersInfos;

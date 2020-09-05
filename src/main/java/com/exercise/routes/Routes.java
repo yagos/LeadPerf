@@ -19,16 +19,21 @@ public final class Routes {
     public static final String CHARACTER_NAME = "characterName";
   }
 
+  /********************************/
+  /** Rick & Morty - DEFAULT API **/
+  /********************************/
+  // Rick & Morty - DEFAULT API - URL
   public static final class RickMorty {
     public static final String BASE_URL = "http://rickandmortyapi.com/api";
     public static final String CHARACTER = "/character";
 
   }
 
-
+  // Rick & Morty - DEFAULT API - PARAM
   public static final class RickMortyParam {
     public static final String PAGE = "page";
     public static final String NAME = "name";
+    public static final String ID = "id";
 
   }
 

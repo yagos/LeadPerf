@@ -7,7 +7,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.web.reactive.function.client.WebClient;
-import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 @Slf4j
@@ -47,6 +46,31 @@ public class RickMortyService {
     return webClient
         .get()
         .uri(Routes.RickMorty.CHARACTER.concat("/?"+ Routes.RickMortyParam.NAME +"={ }"), characterName)
+        .accept(MediaType.APPLICATION_JSON)
+        .retrieve()
+        .bodyToMono(RickMortyCharactersInfos.class);
+  }
+
+  //TODO: It's not handled by rick&morty api.
+  public Mono<RickMortyCharactersInfos> deleteCharacterById(String characterId) {
+    log.debug("Launching getCharacterByName with character name: {}", characterId);
+
+    return webClient
+        .delete()
+        .uri(Routes.RickMorty.CHARACTER.concat("/?"+ Routes.RickMortyParam.ID +"={ }"), characterId)
+        .accept(MediaType.APPLICATION_JSON)
+        .retrieve()
+        .bodyToMono(RickMortyCharactersInfos.class);
+  }
+
+  //TODO: It's not handled by rick&morty api.
+  public Mono<RickMortyCharactersInfos> createCharacter(RickMortyCharacter rickMortyCharacter) {
+    log.debug("Launching createCharacter with character: {}", rickMortyCharacter);
+
+    return webClient
+        .post()
+        .uri(Routes.RickMorty.CHARACTER)
+        .bodyValue(rickMortyCharacter)
         .accept(MediaType.APPLICATION_JSON)
         .retrieve()
         .bodyToMono(RickMortyCharactersInfos.class);
