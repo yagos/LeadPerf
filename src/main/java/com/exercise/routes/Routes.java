@@ -10,6 +10,7 @@ public final class Routes {
 
   public static final class RMPath {
     public static final String CHARACTERS = "/characters";
+    public static final String CHARACTERS_UI = "/charactersUI";
     public static final String ID = "/id";
     public static final String NAME = "/name";
   }

@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Hello page - listOneCharacter</title>
+</head>
+<body>
+
+<p>
+    Hello there - listOneCharacter by Name
+</p>
+
+<h3>Character by Name</h3>
+
+<form th:action="@{/v1/charactersUI}">
+    <input type="text" th:name="characterName"/>
+    <input type="submit"/>
+</form>
+
+
+</body>
+</html>

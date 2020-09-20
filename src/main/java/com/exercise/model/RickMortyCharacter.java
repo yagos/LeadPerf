@@ -10,6 +10,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Builder
 public class RickMortyCharacter {
-  private long id;
-  private String name, url, status, species, type, gender, created;
+  public long id;
+  public String name, url, status, species, type, gender, created;
 }

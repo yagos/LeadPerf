@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Hello page - listAllCharacters</title>
+</head>
+<body>
+
+<p>
+    Hello there - listAllCharacters
+</p>
+
+<h3>Character(s)</h3>
+<br />
+
+<table border="1">
+    <tr>
+        <td><b>Characters Infos - Count</b></td>
+        <td><b>Characters Infos - Pages</b></td>
+        <td><b>Characters Infos - Next</b></td>
+        <td><b>Characters Infos - Previous</b></td>
+    </tr>
+    <tr data-th-each="characterInfos : ${rickMortyCharactersInfosValue}">
+        <td>[[${characterInfos.info.count}]]</td>
+        <td>[[${characterInfos.info.pages}]]</td>
+        <td>
+            <a th:href="${characterInfos.info.next}">[[${characterInfos.info.next}]]</a>
+        </td>
+        <td>[[${characterInfos.info.previous}]]</td>
+    </tr>
+</table>
+
+<br/>
+<br/>
+
+<table border="1">
+    <tr>
+        <td><b>Character Result - Id</b></td>
+        <td><b>Character Result - Name</b></td>
+        <td><b>Character Result - Url</b></td>
+        <td><b>Character Result - Status</b></td>
+    </tr>
+    <tr data-th-each="characters : ${rickMortyCharactersInfosValue.results}">
+        <td>[[${characters.id}]]</td>
+        <td>[[${characters.name}]]</td>
+        <td>
+            <a th:href="${characters.url}">[[${characters.url}]]</a>
+        </td>
+        <td>[[${characters.status}]]</td>
+    </tr>
+</table>
+
+</body>
+</html>

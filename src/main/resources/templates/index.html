@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Home page</title>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+</head>
+<body>
+<p>
+    <span th:text="'Today is: ' + ${#dates.format(#dates.createNow(), 'dd MMM yyyy HH:mm')}" th:remove="tag"></span>
+</p>
+
+<p>
+    This is home page. Go to <a href="hello">hello page</a>
+</p>
+
+<p>
+    This page list all characters. Go to
+    <a href="listAllCharacters" th:href="@{/v1/charactersUI}">listAllCharacters page</a>
+</p>
+
+<p>
+    This page list one character by ID. Go to
+    <a href="listOneCharacterInputId">listOneCharacter by ID page</a>
+</p>
+<p>
+    This page list one character by NAME. Go to
+    <a href="listOneCharacterInputName">listOneCharacter by NAME page</a>
+</p>
+<p>
+    This page add one character. Go to
+    <a href="addOneCharacter">addOneCharacter page</a>
+</p>
+<p>
+    This page delete one character. Go to
+    <a href="deleteOneCharacter">deleteOneCharacter page</a>
+</p>
+
+</body>
+</html>

@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Hello page - listOneCharacter</title>
+</head>
+<body>
+
+<p>
+    Hello there - listOneCharacter
+</p>
+
+<h3>Character</h3>
+<br />
+<table border="1">
+    <tr>
+        <td><b>Character ID</b></td>
+        <td><b>Character Name</b></td>
+        <td><b>Character Url</b></td>
+        <td><b>Character Status</b></td>
+        <td><b>Character Species</b></td>
+        <td><b>Character Type</b></td>
+        <td><b>Character Gender</b></td>
+        <td><b>Character Created</b></td>
+    </tr>
+    <tr data-th-each="character : ${rickMortyCharacterValue}">
+        <td>[[${character.id}]]</td>
+        <td>[[${character.name}]]</td>
+        <td>
+            <a th:href="${character.url}">[[${character.url}]]</a>
+        </td>
+        <td>[[${character.status}]]</td>
+        <td>[[${character.species}]]</td>
+        <td>[[${character.type}]]</td>
+        <td>[[${character.gender}]]</td>
+        <td>[[${character.created}]]</td>
+    </tr>
+</table>
+</body>
+</html>

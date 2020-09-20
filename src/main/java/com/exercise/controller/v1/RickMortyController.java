@@ -8,32 +8,101 @@ import com.sun.istack.NotNull;
 import io.swagger.annotations.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
 import reactor.core.publisher.Mono;
 
 import javax.validation.Valid;
+import java.util.Collections;
+import java.util.Set;
 
 @RestController
 @Api("Rick&Morty")
 @Slf4j
-@RequestMapping(path = Routes.Version.V1,
-    consumes = MediaType.APPLICATION_JSON_VALUE,
-    produces = MediaType.APPLICATION_JSON_VALUE)
+@RequestMapping(path = Routes.Version.V1)
 public class RickMortyController {
+
+  public static final String TEST_RESPONSE = "This is a TEST !";
 
   @Autowired
   private RickMortyService rickMortyService;
 
+  /** CONTROLLER UI **/
+
+  @GetMapping(value = "/TestRMUI")
+  @ApiOperation(value = "Get a test value")
+  @ApiResponses(value = {
+      @ApiResponse(code = 200, message = "Test has been executed."),
+      @ApiResponse(code = 500, message = "Internal server error.")})
+  public ModelAndView testUI() {
+    ModelAndView mav = new ModelAndView("testUI");
+    mav.addObject("value", Collections.singleton(TEST_RESPONSE));
+    log.debug("Test route is executed.");
+    return mav;
+  }
+
+  @GetMapping(value = Routes.RMPath.CHARACTERS_UI, params = Routes.RMParam.CHARACTER_ID)
+  @ApiOperation(value = "Get character by id.")
+  @ApiResponses(value = {
+      @ApiResponse(code = 200, message = "Get character by id."),
+      @ApiResponse(code = 500, message = "Internal server error.")})
+  public ModelAndView getCharacterByidUI(
+      @ApiParam(value = "Id of the character.", required = true)
+      @RequestParam(Routes.RMParam.CHARACTER_ID) @NotNull @Valid long characterId
+  ) {
+    Mono<RickMortyCharacter> rickMortyCharacter = rickMortyService.getCharacterById(characterId);
+
+    log.debug("Request param char id: {}", characterId);
+    ModelAndView mav = new ModelAndView("listOneCharacter");
+    mav.addObject("rickMortyCharacterValue", rickMortyCharacter.block());
+    log.debug("Got following response: {}", rickMortyCharacter);
+    return mav;
+  }
+
+  @GetMapping(value = Routes.RMPath.CHARACTERS_UI, params = Routes.RMParam.CHARACTER_NAME)
+  @ApiOperation(value = "Get character by name.")
+  @ApiResponses(value = {
+      @ApiResponse(code = 200, message = "Character name."),
+      @ApiResponse(code = 500, message = "Internal server error.")})
+  public ModelAndView getCharactersByNameUI(
+      @ApiParam(value = "Character name.", required = true)
+      @RequestParam(Routes.RMParam.CHARACTER_NAME) @NotNull @Valid String characterName
+  ) {
+    log.debug("Path param character name: {}", characterName);
+    Mono<RickMortyCharactersInfos> rickMortyCharactersInfos = rickMortyService.getCharacterByName(characterName);
+    log.debug("Got following response: {}", rickMortyCharactersInfos.block());
+
+    ModelAndView mav = new ModelAndView("listAllCharacters");
+    mav.addObject("rickMortyCharactersInfosValue", rickMortyCharactersInfos.block());
+    return mav;
+  }
+
+  @GetMapping(value = Routes.RMPath.CHARACTERS_UI)
+  @ApiOperation(value = "Get all characters.")
+  @ApiResponses(value = {
+      @ApiResponse(code = 200, message = "Get all characters."),
+      @ApiResponse(code = 500, message = "Internal server error.")})
+  public ModelAndView getAllCharacterUI(
+  ) {
+    log.debug("Launching getAllCharacterUI.");
+    Mono<RickMortyCharactersInfos> rickMortyCharactersInfos = rickMortyService.getCharacters();
+    log.debug("Got following response: {}", rickMortyCharactersInfos);
+
+    ModelAndView mav = new ModelAndView("listAllCharacters");
+    mav.addObject("rickMortyCharactersInfosValue", rickMortyCharactersInfos.block());
+    return mav;
+  }
+
+  /** CONTROLLER **/
 
   @GetMapping(value = "/TestRM")
   @ApiOperation(value = "Get a test value")
   @ApiResponses(value = {
       @ApiResponse(code = 200, message = "Test has been executed."),
       @ApiResponse(code = 500, message = "Internal server error.")})
-  public String test() {
+  public Set<String> test() {
     log.debug("Test route is executed.");
-    return "This is a TEST !";
+    return Collections.singleton(TEST_RESPONSE);
   }
 
   @GetMapping(value = Routes.RMPath.CHARACTERS)

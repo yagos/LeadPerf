@@ -12,6 +12,6 @@ import java.util.List;
 @NoArgsConstructor
 @Builder
 public class RickMortyCharactersInfos {
-  private RickMortyInfos info;
-  private List<RickMortyCharacter> results;
+  public RickMortyInfos info;
+  public List<RickMortyCharacter> results;
 }
